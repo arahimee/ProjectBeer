@@ -1,0 +1,9 @@
+{
+  "name": "project-beer",
+  "version": "0.0.0",
+  "description": "ProjectBeer",
+  "main": "server.js",
+  "author": {
+    "name": "arahimee"
+  }
+}
