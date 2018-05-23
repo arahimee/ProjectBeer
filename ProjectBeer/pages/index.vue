@@ -97,22 +97,22 @@
         },
         watch: {
             'selectedSortOption': function(){
-                this.getBeers();
+                this.refreshResult();
             },
             'selectedSortType': function(){
-                this.getBeers();
+                this.refreshResult();
             },
             'filter.name': function(){
-                this.getBeers();
+                this.refreshResult();
             },
             'filter.abv': function(){
-                this.getBeers();
+                this.refreshResult();
             },
             'filter.isOrganic': function(){
-                this.getBeers();
+                this.refreshResult();
             },
             'filter.status': function(){
-                this.getBeers();
+                this.refreshResult();
             },
         },
         mounted() {
@@ -121,17 +121,16 @@
         methods: {
             getBeers: async function() {
                 this.beers = null;
-                var queryString = 'key=' + this.$root.ApiKey;
-                queryString += '&p=' + this.currentPage;
+                var queryString = 'breweryDbApiKey=' + this.$root.ApiKey;
+                queryString += '&pageNumber=' + this.currentPage;
                 queryString += '&order=' + this.selectedSortOption;
                 queryString+= '&sort=' + this.selectedSortType;
                 queryString += '&name=' + this.filter.name;
                 queryString += '&abv=-' + this.filter.abv;
                 queryString += '&isOrganic=' + this.filter.isOrganic;
                 queryString += '&status=' + this.filter.status;
-                queryString = encodeURIComponent(queryString);
 
-                const res = await axios.get(`http://localhost:50630/api/beers?queryString=${queryString}`);
+                const res = await axios.get(`http://localhost:50630/api/beers?${queryString}`);
                 
                 this.beers = res.data.Data == null ? [] : res.data.Data;
                 this.currentPage = res.data.CurrentPage;
@@ -139,6 +138,10 @@
             },
             pageClicked: function(pageNumber){
                 this.currentPage = pageNumber;
+                this.getBeers();
+            },
+            refreshResult: function(){
+                this.currentPage = 1;
                 this.getBeers();
             }
         }

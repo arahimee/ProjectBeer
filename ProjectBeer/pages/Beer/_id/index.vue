@@ -121,7 +121,7 @@
     methods: {
         getBeer: async function(id) {
             const res = await axios.get(
-                `http://localhost:50630/api/beers/${id}?key=${this.$root.ApiKey}`
+                `http://localhost:50630/api/beers/${id}?breweryDbApiKey=${this.$root.ApiKey}`
             );
             this.beer = res.data;
         }

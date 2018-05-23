@@ -26,9 +26,9 @@ namespace ProjectBeer.API.Controllers
         }
 
         // GET: api/Beers
-        public async Task<IHttpActionResult> Get(string queryString)
+        public async Task<IHttpActionResult> Get(string breweryDbApiKey, int pageNumber, string name, string isOrganic, string abv, string status, string order, string sort)
         {
-            var response = await _breweryDbHttpClient.GetBeersAsync(queryString);
+            var response = await _breweryDbHttpClient.GetBeersAsync(breweryDbApiKey, pageNumber, name, isOrganic, abv, status, order, sort);
 
             if (response.IsSuccessStatusCode)
             {
@@ -37,13 +37,13 @@ namespace ProjectBeer.API.Controllers
                 return Ok(result);
             }
             
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.InternalServerError);
         }
 
         // GET: api/Beers/5
-        public async Task<IHttpActionResult> Get(string id, string key)
+        public async Task<IHttpActionResult> Get(string id, string breweryDbApiKey)
         {
-            var response = await _breweryDbHttpClient.GetBeerAsync(id, key);
+            var response = await _breweryDbHttpClient.GetBeerAsync(id, breweryDbApiKey);
 
             if (response.IsSuccessStatusCode)
             {
@@ -53,7 +53,7 @@ namespace ProjectBeer.API.Controllers
                 return Ok(result);
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.InternalServerError);
         }
     }
 }
